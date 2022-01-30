@@ -2,7 +2,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO javadoc
+ * TODO : description
+ *
+ *
+ * @author      Megane Dandurand
+ * @author      Julien Thibeault
  * */
 public class TreeNode {
 
@@ -21,7 +25,10 @@ public class TreeNode {
     private float dc;       // density of comments per class or package : dc = cloc / loc
     private float bc;       // degree of comments for class or package : bc = dc / wmcwcp
 
-    // Constructor to use for tree's root
+
+    /**
+     * Class constructor. Use for tree's root.
+     */
     TreeNode () {
         this.parentNode = null;
         this.childNodes = new HashSet<>();
@@ -30,7 +37,11 @@ public class TreeNode {
         this.wmcwcp = 0;
     }
 
-    // Constructor to use for child node
+    /**
+     * Class constructor specifying parentNode. Use for child node.
+     *
+     * @param parentNode
+     */
     TreeNode (TreeNode parentNode) {
         this.parentNode = parentNode;
         this.childNodes = new HashSet<>();
@@ -39,8 +50,13 @@ public class TreeNode {
         this.wmcwcp = 0;
     }
 
-    // Setters & methods to update metrics recursively
-
+    /**
+     * Add mesured number of lines per class or package to loc metric.
+     * Added value is propagated up the tree by recursively updating parent's node.
+     * dc metric is also updated.
+     *
+     * @param value
+     */
     public void addLoc(int value) {
         this.loc += value;
         this.updateDc();
@@ -49,6 +65,13 @@ public class TreeNode {
         }
     }
 
+    /**
+     * Add mesured number of lines which include comments to cloc metric.
+     * Added value is propagated up the tree by recursively updating parent's node.
+     * dc metric is also updated.
+     *
+     * @param value
+     */
     public void addCloc(int value) {
         this.cloc += value;
         this.updateDc();
@@ -57,6 +80,13 @@ public class TreeNode {
         }
     }
 
+    /**
+     * Add mesured number of methods to wmcwcp metric.
+     * Added value is propagated up the tree by recursively updating parent's node.
+     * bc metric is also updated.
+     *
+     * @param value
+     */
     public void addWmcwcp(int value) {
         this.wmcwcp += value;
         this.updateBc();
@@ -65,6 +95,10 @@ public class TreeNode {
         }
     }
 
+    /**
+     * Replace dc metric value by recalculated value if loc value is not equal to zero.
+     * bc metric is also updated.
+     */
     public void updateDc() {
         if (this.loc != 0) {
             this.dc = (float) this.cloc / (float) this.loc;
@@ -72,56 +106,102 @@ public class TreeNode {
         }
     }
 
+    /**
+     * Replace bc metric value by recalculated value if wmcwcp value is not equal to zero.
+     */
     public void updateBc() {
         if (this.wmcwcp != 0) {
             this.bc = this.dc / (float) this.wmcwcp;
         }
     }
 
-    public void setParentNode(TreeNode parentNode) {
-        this.parentNode = parentNode;
-    }
-
+    /**
+     * Add a {@link TreeNode} as child node to the childNodes set.
+     *
+     * @param childNode
+     */
     public void addChildNode(TreeNode childNode) {
         this.childNodes.add(childNode);
     }
 
+    /**
+     * Setter method.
+     *
+     * @param path
+     */
     public void setPath(String path) {
         this.path = path;
     }
 
-    // Getters
-
+    /**
+     * Getter method.
+     *
+     * @return      Parent node
+     */
     public TreeNode getParentNode() {
         return parentNode;
     }
 
+    /**
+     * Getter method.
+     *
+     * @return      Set with child nodes
+     */
     public Set<TreeNode> getChildNodes() {
         return childNodes;
     }
 
+    /**
+     * Getter method.
+     *
+     * @return      Element path
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Getter method.
+     *
+     * @return      number of lines per class or package
+     */
     public int getLoc() {
         return loc;
     }
 
+    /**
+     * Getter method.
+     *
+     * @return      number of lines which include comments
+     */
     public int getCloc() {
         return cloc;
     }
 
+    /**
+     * Getter method.
+     *
+     * @return      number of methods per class or package
+     */
     public int getWmcwcp() {
         return wmcwcp;
     }
 
+    /**
+     * Getter method.
+     *
+     * @return      density of comments per class or package : dc = cloc / loc
+     */
     public float getDc() {
         return dc;
     }
 
+    /**
+     * Getter method.
+     *
+     * @return      degree of comments for class or package : bc = dc / wmcwcp
+     */
     public float getBc() {
         return bc;
     }
 }
-
