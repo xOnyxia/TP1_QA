@@ -29,20 +29,32 @@ public class Parsing {
                         }
                         else {
                             if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals("/*")) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals("/**"))) {
+                                int count = 1;
                                 //tant qu'on trouve pas la ligne avec la fin de commentaire, next line
-                                while (myReader.hasNextLine() && !line.contains("*/")) {
-                                   line = myReader.nextLine();
+                                while(myReader.hasNextLine() && count!=0){
+                                    line = myReader.nextLine();
+                                    if(line.contains("/*") || line.contains("/**")){
+                                        ++count;
+                                    }
+                                    if(line.contains("*/")){
+                                        --count;
+                                    }
                                 }
-                                //aller a la ligne apres celle de fin de commentaire
-                               // myReader.nextLine();
                             }
                             //soit une ligne de code avec commentaire ou juste code
                             else {
                                 //ligne de code avec commentaire
                                 if (line.contains("/*") || line.contains("/**")) {
                                     ++classe_LOC;
-                                    while (myReader.hasNextLine() && !line.contains("*/")) {
+                                    int count = 1;
+                                    while(myReader.hasNextLine() && count!=0){
                                         line = myReader.nextLine();
+                                        if(line.contains("/*") || line.contains("/**")){
+                                            ++count;
+                                        }
+                                        if(line.contains("*/")){
+                                            --count;
+                                        }
                                     }
                                 }
                                 //juste du code
@@ -76,9 +88,16 @@ public class Parsing {
                         } else {
                             if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals("/*")) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals("/**"))) {
                                 //tant qu'on trouve pas la ligne avec la fin de commentaire, next line
-                                while (myReader.hasNextLine() && !line.contains("*/")) {
+                                int count = 1;
+                                while(myReader.hasNextLine() && count!=0) {
                                     ++classe_CLOC;
                                     line = myReader.nextLine();
+                                    if (line.contains("/*") || line.contains("/**")) {
+                                        ++count;
+                                    }
+                                    if (line.contains("*/")) {
+                                        --count;
+                                    }
                                 }
                                 ++classe_CLOC;
                             }
@@ -87,9 +106,16 @@ public class Parsing {
                                 //ligne de code avec commentaire
                                 if (line.contains("/*") || line.contains("/**")) {
                                     ++classe_CLOC;
-                                    while (myReader.hasNextLine() && !line.contains("*/")) {
+                                    int count = 1;
+                                    while(myReader.hasNextLine() && count!=0){
                                         ++classe_CLOC;
                                         line = myReader.nextLine();
+                                        if(line.contains("/*") || line.contains("/**")){
+                                            ++count;
+                                        }
+                                        if(line.contains("*/")){
+                                            --count;
+                                        }
                                     }
                                     ++classe_CLOC;
                                 }

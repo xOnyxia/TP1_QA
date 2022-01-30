@@ -6,7 +6,7 @@ public class Main {
         // write your code here
         //tests unitaires pour tester parsing
         //TODO: cleanup at the end
-       /* Parsing parstest = new Parsing();
+        /*Parsing parstest = new Parsing();
         File myObj = new File("src/test.txt");
         parstest.classeLOC(myObj);
         parstest.classeCLOC(myObj);
