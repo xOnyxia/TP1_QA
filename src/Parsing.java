@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 public class Parsing {
@@ -146,5 +147,14 @@ public class Parsing {
             else {
                 System.err.println("Division par 0");
             }
+        }
+
+        public float classMethods(File file) throws ClassNotFoundException {
+            String className = file.getName();
+            className = className.substring(0, className.lastIndexOf(".java"));
+            Class fileClass = Class.forName(className);
+            Method[] methods = fileClass.getMethods();
+            //returns the amount of methods in the file class so that we can calculate WMC
+            return methods.length;
         }
     }
