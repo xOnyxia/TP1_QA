@@ -9,7 +9,7 @@ public class Parsing {
     // paquet_LOC : nombre de lignes de code d’un paquet (java package) -- la somme des LOC de ses classes
     // classe_CLOC : nombre de lignes de code d’une classe qui contiennent des commentaires
     // paquet_CLOC : nombre de lignes de code d’un paquet qui contiennent des commentaires
-    //paquet_DC : densité de commentaires pour une classe : classe_DC = classe_CLOC / classe_LOC
+    //classe_DC : densité de commentaires pour une classe : classe_DC = classe_CLOC / classe_LOC
     //paquet_DC : densité de commentaires pour un paquet : paquet_DC = paquet_CLOC / paquet_LOC
 
         float classe_LOC = 0;
@@ -149,6 +149,27 @@ public class Parsing {
             }
         }
 
+        float paquet_LOC = 0;
+        float paquet_CLOC = 0;
+        float paquet_DC = 0;
+
+        public void paquetLOC(){
+            //TODO: pour chaque classe dans le paquet, faire classe_LOC et sum
+        }
+
+        public void paquetCLOC(){
+            //TODO: pour chaque classe dans le paquet, faire classe_CLOC et sum
+        }
+
+        public void paquetDC(){
+            if(paquet_LOC!=0) {
+                paquet_DC = paquet_CLOC/paquet_LOC;
+            }
+            else {
+                System.err.println("Division par 0");
+            }
+        }
+
         public float classMethods(File file) throws ClassNotFoundException {
             String className = file.getName();
             className = className.substring(0, className.lastIndexOf(".java"));
@@ -156,5 +177,9 @@ public class Parsing {
             Method[] methods = fileClass.getMethods();
             //returns the amount of methods in the file class so that we can calculate WMC
             return methods.length;
+        }
+
+        public void packageMethods(){
+            //TODO: calculer WMC en loopant sur chaque classe du paquet et les additionner. return cette valeur
         }
     }
