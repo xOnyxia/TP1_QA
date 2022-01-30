@@ -6,9 +6,13 @@ public class Main {
         // write your code here
         //tests unitaires pour tester parsing
         //TODO: cleanup at the end
-      /*  Parsing parstest = new Parsing();
+       /* Parsing parstest = new Parsing();
         File myObj = new File("src/test.txt");
         parstest.classeLOC(myObj);
-        System.out.println("Nombres de lignes de code: " + parstest.classe_LOC);*/
+        parstest.classeCLOC(myObj);
+        parstest.classeDC();
+        System.out.println("Nombres de lignes de code: " + parstest.classe_LOC);
+        System.out.println("Nombres de lignes de commentaires: " + parstest.classe_CLOC);
+        System.out.println("Densite de comments classe: " + parstest.classe_DC);*/
     }
 }
