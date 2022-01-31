@@ -5,6 +5,11 @@ import java.util.Scanner;
 
 public class Parsing {
 
+    final String singleComment = "//";
+    final String javaDocComment = "/**";
+    final String multiLineComment = "/*";
+    final String commentEnder = "*/";
+
     // classe_LOC : nombre de lignes de code d’une classe
     // paquet_LOC : nombre de lignes de code d’un paquet (java package) -- la somme des LOC de ses classes
     // classe_CLOC : nombre de lignes de code d’une classe qui contiennent des commentaires
@@ -25,19 +30,19 @@ public class Parsing {
                     String line = myReader.nextLine();
                     if (!line.trim().isEmpty()) {
                         //si commence par un comment
-                        if (line.trim().length()>=2 && line.trim().substring(0, 2).equals("//")) {
+                        if (line.trim().length()>=2 && line.trim().substring(0, 2).equals(singleComment)) {
                             //do nada
                         }
                         else {
-                            if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals("/*")) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals("/**"))) {
+                            if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals(multiLineComment)) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals(javaDocComment))) {
                                 int count = 1;
                                 //tant qu'on trouve pas la ligne avec la fin de commentaire, next line
                                 while(myReader.hasNextLine() && count!=0){
                                     line = myReader.nextLine();
-                                    if(line.contains("/*") || line.contains("/**")){
+                                    if(line.contains(multiLineComment) || line.contains(javaDocComment)){
                                         ++count;
                                     }
-                                    if(line.contains("*/")){
+                                    if(line.contains(commentEnder)){
                                         --count;
                                     }
                                 }
@@ -45,15 +50,15 @@ public class Parsing {
                             //soit une ligne de code avec commentaire ou juste code
                             else {
                                 //ligne de code avec commentaire
-                                if (line.contains("/*") || line.contains("/**")) {
+                                if (line.contains(multiLineComment) || line.contains(javaDocComment)) {
                                     ++classe_LOC;
                                     int count = 1;
                                     while(myReader.hasNextLine() && count!=0){
                                         line = myReader.nextLine();
-                                        if(line.contains("/*") || line.contains("/**")){
+                                        if(line.contains(multiLineComment) || line.contains(javaDocComment)){
                                             ++count;
                                         }
-                                        if(line.contains("*/")){
+                                        if(line.contains(commentEnder)){
                                             --count;
                                         }
                                     }
@@ -84,19 +89,19 @@ public class Parsing {
                     String line = myReader.nextLine();
                     if (!line.trim().isEmpty()) {
                         //si commence par un comment
-                        if (line.trim().length()>=2 && line.trim().substring(0, 2).equals("//")) {
+                        if (line.trim().length()>=2 && line.trim().substring(0, 2).equals(singleComment)) {
                             ++classe_CLOC;
                         } else {
-                            if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals("/*")) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals("/**"))) {
+                            if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals(multiLineComment)) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals(javaDocComment))) {
                                 //tant qu'on trouve pas la ligne avec la fin de commentaire, next line
                                 int count = 1;
                                 while(myReader.hasNextLine() && count!=0) {
                                     ++classe_CLOC;
                                     line = myReader.nextLine();
-                                    if (line.contains("/*") || line.contains("/**")) {
+                                    if (line.contains(multiLineComment) || line.contains(javaDocComment)) {
                                         ++count;
                                     }
-                                    if (line.contains("*/")) {
+                                    if (line.contains(commentEnder)) {
                                         --count;
                                     }
                                 }
@@ -105,16 +110,16 @@ public class Parsing {
                             //soit une ligne de code avec commentaire ou juste code
                             else {
                                 //ligne de code avec commentaire
-                                if (line.contains("/*") || line.contains("/**")) {
+                                if (line.contains(multiLineComment) || line.contains(javaDocComment)) {
                                     ++classe_CLOC;
                                     int count = 1;
                                     while(myReader.hasNextLine() && count!=0){
                                         ++classe_CLOC;
                                         line = myReader.nextLine();
-                                        if(line.contains("/*") || line.contains("/**")){
+                                        if(line.contains(multiLineComment) || line.contains(javaDocComment)){
                                             ++count;
                                         }
-                                        if(line.contains("*/")){
+                                        if(line.contains(commentEnder)){
                                             --count;
                                         }
                                     }
@@ -122,7 +127,7 @@ public class Parsing {
                                 }
                                 else {
                                     //avec //
-                                    if(line.contains("//")){
+                                    if(line.contains(singleComment)){
                                         ++classe_CLOC;
                                     }
                                     //juste du code
