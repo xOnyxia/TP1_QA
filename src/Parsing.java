@@ -10,6 +10,9 @@ public class Parsing {
     final String multiLineComment = "/*";
     final String commentEnder = "*/";
 
+    // TODO : ajouter constante pour String if et while.
+    // TODO : méthode pour mesurer WMC (complexité cyclomatique de McCabe)
+
     // classe_LOC : nombre de lignes de code d’une classe
     // paquet_LOC : nombre de lignes de code d’un paquet (java package) -- la somme des LOC de ses classes
     // classe_CLOC : nombre de lignes de code d’une classe qui contiennent des commentaires
@@ -160,13 +163,16 @@ public class Parsing {
 
         public void paquetLOC(){
             //TODO: pour chaque classe dans le paquet, faire classe_LOC et sum
+            //FIXME : géré dans la récursion dans MAIN : méthode non nécessaire en raison de la structure de donnée
         }
 
         public void paquetCLOC(){
             //TODO: pour chaque classe dans le paquet, faire classe_CLOC et sum
+            //FIXME : géré dans la récursion dans MAIN : méthode non nécessaire en raison de la structure de donnée
         }
 
         public void paquetDC(){
+            // FIXME : pas besoin,géré par la structure de donnée
             if(paquet_LOC!=0) {
                 paquet_DC = paquet_CLOC/paquet_LOC;
             }
@@ -186,5 +192,6 @@ public class Parsing {
 
         public void packageMethods(){
             //TODO: calculer WMC en loopant sur chaque classe du paquet et les additionner. return cette valeur
+            // FIXME : pas besoin,géré par la structure de donnée
         }
     }
