@@ -28,8 +28,8 @@ public class PackageNode {
      * Class constructor.
      * Use for tree's root.
      */
-    PackageNode () {
-        this.path = "/";
+    PackageNode (String path) {
+        this.path = path;
         this.parentNode = null;
         this.childPackages = new HashSet<>();
         this.childClasses = new HashSet<>();

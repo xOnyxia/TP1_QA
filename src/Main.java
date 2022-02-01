@@ -4,21 +4,22 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException {
-        // arg1 = src_path
-        // arg2 = output_path (where to save CSV files)
+        String src_path = args[0];
+        String output_path = args[1];
 
         // Initialize data structure, root is a dummy PackageNode.
-        PackageNode root = new PackageNode();
+        PackageNode root = new PackageNode(src_path);
 
         // Call to static method Parsing.parsePackage()
-        Parsing.parsePackage(root);
+        Parsing.parsePackage(root, src_path);
 
         // TODO : les methodes de Parsing devraient etre private
-        //  et appelee par parsePackage (method Static)
+        //  et appelee par parseClass ou parsePackage (static methods)
 
         // Read data structure and write CSV files
+        // Ignore first level PackageNode, which is the root provided as src_path
+        // Strip src_path from all path to get relative path
         // TODO
-
 
 
 
