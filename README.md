@@ -14,14 +14,12 @@ The application might work with previous versions, but it has not been tested ye
 
 ## Running the command-line application
 To run the command-line application you must provide the source directory of the project.
-In terminal, use this command with actual path :
+In terminal, use this command with actual source path and output path :
 ```
-java -jar JavaCodeAnalytics.jar path
+java -jar JavaCodeAnalytics.jar src_path output_path
 ```
 Make sure to enter the path of the project directory and not the first package you want to parse.
 Otherwise, you won't get the top level package analytics in the CSV.
-
-
 
 ### Output example
 The command-line application will output two CSV files.
