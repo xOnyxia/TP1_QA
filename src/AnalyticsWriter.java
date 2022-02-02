@@ -35,8 +35,8 @@ public class AnalyticsWriter {
         this.output_path = output_path;
         this.dataTreeRoot = dataTreeRoot;
 
-        this.packagesPath = output_path + "paquets.csv";
-        this.classesPath = output_path + "classes.csv";
+        this.packagesPath = this.output_path + "paquets.csv";
+        this.classesPath = this.output_path + "classes.csv";
 
         this.packagesFile = new File(this.packagesPath);
         this.classesFile = new File(this.classesPath);
@@ -45,6 +45,7 @@ public class AnalyticsWriter {
 
     /**
      * Constructor.
+     *
      */
     public void writeAnalyticsFromRoot() {
 
@@ -107,7 +108,6 @@ public class AnalyticsWriter {
         this.packagesBufferedWriter.write(String.valueOf(currentNode.getWcp()) + ",");
         this.packagesBufferedWriter.write(String.valueOf(currentNode.getBc()));
         this.packagesBufferedWriter.newLine();
-
 
         // loop over class nodes, child of current node
         for (ClassNode classNode: currentNode.getChildClasses()) {
