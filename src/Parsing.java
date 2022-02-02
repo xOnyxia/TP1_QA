@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
@@ -61,9 +59,11 @@ public class Parsing {
             }
 
             //  Recursion on packages
-            for (String directory: directories) {
-                String newPath = currentPath + directory + "/";
-                parsePackage(currentPackage, newPath);
+            if (directories != null) {
+                for (String directory: directories) {
+                    String newPath = currentPath + directory + "/";
+                    parsePackage(currentPackage, newPath);
+                }
             }
 
         } else if (directories != null && directories.length != 0) {
