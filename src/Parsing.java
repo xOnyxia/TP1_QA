@@ -16,8 +16,8 @@ public class Parsing {
     // paquet_LOC : nombre de lignes de code d’un paquet (java package) -- la somme des LOC de ses classes
     // classe_CLOC : nombre de lignes de code d’une classe qui contiennent des commentaires
     // paquet_CLOC : nombre de lignes de code d’un paquet qui contiennent des commentaires
-    //classe_DC : densité de commentaires pour une classe : classe_DC = classe_CLOC / classe_LOC
-    //paquet_DC : densité de commentaires pour un paquet : paquet_DC = paquet_CLOC / paquet_LOC
+    // classe_DC : densité de commentaires pour une classe : classe_DC = classe_CLOC / classe_LOC
+    // paquet_DC : densité de commentaires pour un paquet : paquet_DC = paquet_CLOC / paquet_LOC
 
     /**
      * Static method to parse a package recursively and gather analytics inside a tree structure.

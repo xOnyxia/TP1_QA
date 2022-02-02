@@ -1,6 +1,3 @@
-import java.util.Arrays;
-import java.util.Collections;
-
 public class Utils {
 
     public static String getClassNameFromPath(String path) {
