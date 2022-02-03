@@ -11,7 +11,8 @@ public class Main {
         String srcPath = args[0];
         String outputPath = args[1];
 
-        outputPath = Utils.outputPathFormatting(outputPath);
+        srcPath = Utils.pathFormatting(srcPath);
+        outputPath = Utils.pathFormatting(outputPath);
 
         System.out.println("srcPath : " + srcPath);
         System.out.println("outputPath : " + outputPath);

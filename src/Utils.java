@@ -43,16 +43,16 @@ public class Utils {
     }
 
     /**
-     * Static method to add a "/" at the end of the given output path to fix the formatting
+     * Static method to add a "/" at the end of the given path to fix the formatting
      *
-     * @param outputPath path name to be parsed.
+     * @param path path name to be parsed.
      * @return corrected path name.
      */
-    public static String outputPathFormatting(String outputPath){
+    public static String pathFormatting(String path){
 
-        if(outputPath.charAt(outputPath.length()-1) != '/'){
-            outputPath.concat("/");
+        if(path.charAt(path.length()-1) != '/'){
+            path.concat("/");
         }
-        return outputPath;
+        return path;
     }
 }
