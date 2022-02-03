@@ -51,7 +51,7 @@ public class Utils {
     public static String pathFormatting(String path){
 
         if(path.charAt(path.length()-1) != '/'){
-            path.concat("/");
+            path = path.concat("/");
         }
         return path;
     }

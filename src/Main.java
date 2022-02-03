@@ -10,7 +10,6 @@ public class Main {
 
         String srcPath = args[0];
         String outputPath = args[1];
-
         srcPath = Utils.pathFormatting(srcPath);
         outputPath = Utils.pathFormatting(outputPath);
 
