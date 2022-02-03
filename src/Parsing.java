@@ -84,6 +84,12 @@ public class Parsing {
 
     }
 
+    /**
+     * Static method to parse a class and get the amount of lines of code.
+     *
+     * @param file File to be parsed.
+     * @return Amount of lines of code (code only or code + comment).
+     */
     private static int classeLOC(File file){
         //constants
         final String singleComment = "//";
@@ -152,6 +158,12 @@ public class Parsing {
         return classe_LOC;
     }
 
+    /**
+     * Static method to parse a class and get the amount of lines containing comments.
+     *
+     * @param file File to be parsed.
+     * @return Amount of lines containing comments (comment only or code + comment).
+     */
     private static int classeCLOC(File file){
         //constants
         final String singleComment = "//";
@@ -226,8 +238,13 @@ public class Parsing {
 
         return classe_CLOC;
     }
-
-    //calculates the class complexity
+    
+    /**
+     * Static method to calculate the weighted methods per class (WMC).
+     *
+     * @param file File to be parsed.
+     * @return Class complexity (WMC).
+     */
     private static int classComplexity(File file) throws FileNotFoundException {
         //constants
         final String ifCondition = "if";
