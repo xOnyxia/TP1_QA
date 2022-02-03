@@ -1,4 +1,11 @@
 # JavaCodeAnalytics
+Authors :
+* Megane Dandurand, ***insert matricule***
+* Julien Thibeault, B0610
+
+Repository : 
+* ***insert public link***
+
 ## Introduction
 JavaCodeAnalytics is a command-line application created to provide global analytics for a given java project.
 This project is part of IFT3913 course at Université de Montréal.
@@ -18,6 +25,8 @@ In terminal, use this command with actual source path and output path :
 ```
 java -jar JavaCodeAnalytics.jar src_path output_path
 ```
+`src_path` and `output_path` must end with `/`.
+
 Make sure to enter the path of the project directory and not the first package you want to parse.
 Otherwise, you won't get the top level package analytics in the CSV.
 

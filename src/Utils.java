@@ -10,7 +10,9 @@ public class Utils {
 
     public static String getRelativePath(String path, String srcPath) {
 
-        return path.replace(srcPath, "");
+        String relativePath = path.replace(srcPath, "");
+
+        return relativePath.length() != 0 ? relativePath : "~ root ~";
 
     }
 
@@ -18,7 +20,9 @@ public class Utils {
 
         String relativePath = path.replace(srcPath, "");
 
-        return String.join(".", relativePath.split("/"));
+        relativePath = String.join(".", relativePath.split("/"));
+
+        return relativePath.length() != 0 ? relativePath : "~ root ~";
 
     }
 

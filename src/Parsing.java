@@ -1,6 +1,12 @@
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * Parsing object use to collect data from a source containing java Files and/or java packages.
+ *
+ * @author      Megane Dandurand
+ * @author      Julien Thibeault
+ * */
 public class Parsing {
 
     /**
@@ -9,7 +15,7 @@ public class Parsing {
      * @param parentPackage     Parent package node from data structure to gather analytics.
      * @param currentPath       Current explored path during recursion.
      */
-    public static void parsePackage(PackageNode parentPackage, String currentPath) throws FileNotFoundException {
+    public static void parsePackage(PackageNode parentPackage, String currentPath) {
 
         //Create File object
         File directoryPath = new File(currentPath);
@@ -27,7 +33,7 @@ public class Parsing {
             @Override
             public boolean accept(File dir, String name) {
                 String lowercaseName = name.toLowerCase();
-                return lowercaseName.endsWith(".txt");
+                return lowercaseName.endsWith(".java");
             }
         });
 
@@ -36,11 +42,18 @@ public class Parsing {
 
             PackageNode currentPackage = new PackageNode(parentPackage, currentPath);
 
-            //  Parse package classes
-            for (String javaFile: javaFiles) {
-                String filePath = currentPath + javaFile;
-                parseClass(currentPackage, filePath);
+            parentPackage.addChildNode(currentPackage);
+
+            try {
+                //  Parse package classes
+                for (String javaFile: javaFiles) {
+                    String filePath = currentPath + javaFile;
+                    parseClass(parentPackage, filePath);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
+
 
             //  Recursion on packages
             if (directories != null) {
@@ -59,7 +72,7 @@ public class Parsing {
             }
 
         } else {
-            // empty folder
+            // empty directory
             ;
         }
     }
@@ -71,6 +84,7 @@ public class Parsing {
      * @param filePath          File to parse.
      */
     private static void parseClass(PackageNode parentPackage, String filePath) throws FileNotFoundException {
+
         ClassNode currentClass = new ClassNode(parentPackage, filePath);
 
         parentPackage.addChildNode(currentClass);
@@ -91,6 +105,7 @@ public class Parsing {
      * @return Amount of lines of code (code only or code + comment).
      */
     private static int classeLOC(File file){
+
         //constants
         final String singleComment = "//";
         final String javaDocComment = "/**";

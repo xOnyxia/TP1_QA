@@ -3,6 +3,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * AnalyticsWriter object use to read data from a non binary tree and write to CSV files.
+ * The output is formed by two different CSV files.
+ * First CSV file is for packages analytics.
+ * Second CSV file is for classes analytics.
+ *
+ * @author      Megane Dandurand
+ * @author      Julien Thibeault
+ * */
 public class AnalyticsWriter {
 
     private String src_path;
@@ -99,19 +108,26 @@ public class AnalyticsWriter {
      */
     private void writePackageAnalytics(PackageNode currentNode) throws IOException {
 
-        this.packagesBufferedWriter.write(Utils.getRelativePath(currentNode.getParentNode().getPath(),
-                                          this.src_path) + ",");
-        this.packagesBufferedWriter.write(Utils.getClassNameFromPath(currentNode.getPath()) + ",");
-        this.packagesBufferedWriter.write(String.valueOf(currentNode.getLoc()) + ",");
-        this.packagesBufferedWriter.write(String.valueOf(currentNode.getCloc()) + ",");
-        this.packagesBufferedWriter.write(String.valueOf(currentNode.getDc()) + ",");
-        this.packagesBufferedWriter.write(String.valueOf(currentNode.getWcp()) + ",");
-        this.packagesBufferedWriter.write(String.valueOf(currentNode.getBc()));
-        this.packagesBufferedWriter.newLine();
+        if (currentNode.getWcp() != 0) {
+            this.packagesBufferedWriter.write(Utils.getRelativePath(currentNode.getParentNode().getPath(),
+                    this.src_path) + ",");
+            this.packagesBufferedWriter.write(Utils.getPackageNameFromPath(currentNode.getPath(), this.src_path) + ",");
+            this.packagesBufferedWriter.write(String.valueOf(currentNode.getLoc()) + ",");
+            this.packagesBufferedWriter.write(String.valueOf(currentNode.getCloc()) + ",");
+            this.packagesBufferedWriter.write(String.valueOf(currentNode.getDc()) + ",");
+            this.packagesBufferedWriter.write(String.valueOf(currentNode.getWcp()) + ",");
+            this.packagesBufferedWriter.write(String.valueOf(currentNode.getBc()));
+            this.packagesBufferedWriter.newLine();
+        }
 
         // loop over class nodes, child of current node
         for (ClassNode classNode: currentNode.getChildClasses()) {
             writeClassAnalytics(classNode);
+        }
+
+        // loop over package nodes, child of current node
+        for (PackageNode packageNode: currentNode.getChildPackages()) {
+            writePackageAnalytics(packageNode);
         }
 
     }
