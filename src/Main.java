@@ -11,6 +11,8 @@ public class Main {
         String srcPath = args[0];
         String outputPath = args[1];
 
+        outputPath = Utils.outputPathFormatting(outputPath);
+
         System.out.println("srcPath : " + srcPath);
         System.out.println("outputPath : " + outputPath);
 
@@ -24,6 +26,5 @@ public class Main {
         AnalyticsWriter analyticsWriter = new AnalyticsWriter(srcPath, outputPath, root);
 
         analyticsWriter.writeAnalyticsFromRoot();
-
     }
 }
