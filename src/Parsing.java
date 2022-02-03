@@ -38,15 +38,14 @@ public class Parsing {
         });
 
         if (javaFiles != null && javaFiles.length != 0) {
+
             // If there is at least 1 class
-
             PackageNode currentPackage = new PackageNode(parentPackage, currentPath);
-
             parentPackage.addChildNode(currentPackage);
-
             try {
+
                 //  Parse package classes
-                for (String javaFile: javaFiles) {
+                for (String javaFile : javaFiles) {
                     String filePath = currentPath + javaFile;
                     parseClass(parentPackage, filePath);
                 }
@@ -54,23 +53,21 @@ public class Parsing {
                 e.printStackTrace();
             }
 
-
             //  Recursion on packages
             if (directories != null) {
-                for (String directory: directories) {
+                for (String directory : directories) {
                     String newPath = currentPath + directory + "/";
                     parsePackage(currentPackage, newPath);
                 }
             }
 
         } else if (directories != null && directories.length != 0) {
-            // If there is at least 1 directory but no class
 
-            for (String directory: directories) {
+            // If there is at least 1 directory but no class
+            for (String directory : directories) {
                 String newPath = currentPath + directory + "/";
                 parsePackage(parentPackage, newPath);
             }
-
         } else {
             // empty directory
             ;
@@ -84,18 +81,14 @@ public class Parsing {
      * @param filePath          File to parse.
      */
     private static void parseClass(PackageNode parentPackage, String filePath) throws FileNotFoundException {
-
         ClassNode currentClass = new ClassNode(parentPackage, filePath);
-
         parentPackage.addChildNode(currentClass);
-
         File fileToParse = new File(filePath);
 
         // update ClassNode with measured values
-        currentClass.addLoc(classeLOC(fileToParse));
-        currentClass.addCloc(classeCLOC(fileToParse));
-        currentClass.addWmc(classComplexity(fileToParse));
-
+        currentClass.addLoc(parseClassLoc(fileToParse));
+        currentClass.addCloc(parseClassCloc(fileToParse));
+        currentClass.addWmc(calculateClassComplexity(fileToParse));
     }
 
     /**
@@ -104,73 +97,89 @@ public class Parsing {
      * @param file File to be parsed.
      * @return Amount of lines of code (code only or code + comment).
      */
-    private static int classeLOC(File file){
+    private static int parseClassLoc(File file){
 
         //constants
-        final String singleComment = "//";
-        final String javaDocComment = "/**";
-        final String multiLineComment = "/*";
-        final String commentEnder = "*/";
+        final String SINGLE_COMMENT = "//";
+        final String JAVADOC_COMMENT = "/**";
+        final String MULTIPLE_LINES_COMMENT = "/*";
+        final String END_COMMENT = "*/";
 
-        int classe_LOC = 0;
+        int classLoc = 0;
 
         try {
             Scanner myReader = new Scanner(file);
-
             while (myReader.hasNextLine()) {
-                //si pas vide
                 String line = myReader.nextLine();
+
+                //si pas vide
                 if (!line.trim().isEmpty()) {
-                    //si commence par un comment
-                    if (line.trim().length()>=2 && line.trim().substring(0, 2).equals(singleComment)) {
-                        //do nada
-                    }
-                    else {
-                        if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals(multiLineComment)) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals(javaDocComment))) {
-                            int count = 1;
-                            //tant qu'on trouve pas la ligne avec la fin de commentaire, next line
-                            while(myReader.hasNextLine() && count!=0){
+
+                    //si commence pas par un commentaire
+                    if (!((line.trim().length() >= 2) &&
+                            (line.trim().substring(0, 2).equals(SINGLE_COMMENT)))) {
+
+                        //si la ligne commence avec un commentaire multilignes ou de javadoc
+                        if (((line.trim().length() >= 2) && (line.trim().substring(0, 2).equals(MULTIPLE_LINES_COMMENT)))
+                                || ((line.trim().length() >= 3) && (line.trim().substring(0, 3).equals(JAVADOC_COMMENT)))) {
+
+                            //tant qu'on trouve pas la ligne avec la fin de commentaire (openedComments=0), next line
+                            int openedComments = 1;
+                            while (myReader.hasNextLine() && openedComments != 0) {
                                 line = myReader.nextLine();
-                                if(line.contains(multiLineComment) || line.contains(javaDocComment)){
-                                    ++count;
+
+                                //si on trouve un autre commentaire, on le rajoute dans openedComments
+                                if (line.contains(MULTIPLE_LINES_COMMENT) || line.contains(JAVADOC_COMMENT)) {
+                                    ++openedComments;
                                 }
-                                if(line.contains(commentEnder)){
-                                    --count;
+
+                                //si on trouve une fin de commentaire, on l'enleve de openedComments
+                                if (line.contains(END_COMMENT)) {
+                                    --openedComments;
                                 }
                             }
                         }
-                        //soit une ligne de code avec commentaire ou juste code
+
+                        //soit une ligne de code avec commentaire ou juste un ligne de code
                         else {
+
                             //ligne de code avec commentaire
-                            if (line.contains(multiLineComment) || line.contains(javaDocComment)) {
-                                ++classe_LOC;
-                                int count = 1;
-                                while(myReader.hasNextLine() && count!=0){
+                            if (line.contains(MULTIPLE_LINES_COMMENT) || line.contains(JAVADOC_COMMENT)) {
+                                ++classLoc;
+
+                                //tant qu'on trouve pas la ligne avec la fin de commentaire (openedComments=0), next line
+                                int openedComments = 1;
+                                while (myReader.hasNextLine() && openedComments != 0) {
                                     line = myReader.nextLine();
-                                    if(line.contains(multiLineComment) || line.contains(javaDocComment)){
-                                        ++count;
+
+                                    //si on trouve un autre commentaire, on le rajoute dans openedComments
+                                    if (line.contains(MULTIPLE_LINES_COMMENT) || line.contains(JAVADOC_COMMENT)) {
+                                        ++openedComments;
                                     }
-                                    if(line.contains(commentEnder)){
-                                        --count;
+
+                                    //si on trouve une fin de commentaire, on l'enleve de openedComments
+                                    if (line.contains(END_COMMENT)) {
+                                        --openedComments;
                                     }
                                 }
                             }
-                            //juste du code
+
+                            //ligne avec juste du code
                             else {
-                                ++classe_LOC;
+                                ++classLoc;
                             }
                         }
                     }
                 }
-                //ligne vide
+
+                //else: ligne vide ou ligne commencant par un commentaire, alors do nothing.
             }
             myReader.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        return classe_LOC;
+        return classLoc;
     }
 
     /**
@@ -179,110 +188,129 @@ public class Parsing {
      * @param file File to be parsed.
      * @return Amount of lines containing comments (comment only or code + comment).
      */
-    private static int classeCLOC(File file){
-        //constants
-        final String singleComment = "//";
-        final String javaDocComment = "/**";
-        final String multiLineComment = "/*";
-        final String commentEnder = "*/";
+    private static int parseClassCloc(File file){
 
-        int classe_CLOC = 0;
+        //constants
+        final String SINGLE_COMMENT = "//";
+        final String JAVADOC_COMMENT = "/**";
+        final String MULTIPLE_LINES_COMMENT = "/*";
+        final String END_COMMENT = "*/";
+
+        int classCloc = 0;
 
         try {
             Scanner myReader = new Scanner(file);
-
             while (myReader.hasNextLine()) {
-                //si pas vide
                 String line = myReader.nextLine();
+
+                //si la ligne n'est pas vide
                 if (!line.trim().isEmpty()) {
-                    //si commence par un comment
-                    if (line.trim().length()>=2 && line.trim().substring(0, 2).equals(singleComment)) {
-                        ++classe_CLOC;
+
+                    //si commence par un comment //
+                    if (line.trim().length() >= 2 && line.trim().substring(0, 2).equals(SINGLE_COMMENT)) {
+                        ++classCloc;
                     } else {
-                        if ((line.trim().length()>=2 && line.trim().substring(0, 2).equals(multiLineComment)) || (line.trim().length()>=3 && line.trim().substring(0, 3).equals(javaDocComment))) {
+
+                        //si il y a un commentaire multilignes ou de javadoc
+                        if ((line.trim().length() >= 2 && line.trim().substring(0, 2).equals(MULTIPLE_LINES_COMMENT))
+                                || ((line.trim().length() >= 3) && (line.trim().substring(0, 3).equals(JAVADOC_COMMENT)))) {
+
                             //tant qu'on trouve pas la ligne avec la fin de commentaire, next line
-                            int count = 1;
-                            while(myReader.hasNextLine() && count!=0) {
-                                ++classe_CLOC;
+                            int openedComments = 1;
+                            while (myReader.hasNextLine() && openedComments != 0) {
+                                ++classCloc;
                                 line = myReader.nextLine();
-                                if (line.contains(multiLineComment) || line.contains(javaDocComment)) {
-                                    ++count;
+
+                                //si on trouve un autre commentaire, on le rajoute dans openedComments
+                                if (line.contains(MULTIPLE_LINES_COMMENT) || line.contains(JAVADOC_COMMENT)) {
+                                    ++openedComments;
                                 }
-                                if (line.contains(commentEnder)) {
-                                    --count;
+
+                                //si on trouve une fin de commentaire, on l'enleve de openedComments
+                                if (line.contains(END_COMMENT)) {
+                                    --openedComments;
                                 }
                             }
-                            ++classe_CLOC;
+                            ++classCloc;
                         }
-                        //soit une ligne de code avec commentaire ou juste code
+
+                        //soit une ligne de code avec commentaire ou juste une ligne de code
                         else {
+
                             //ligne de code avec commentaire
-                            if (line.contains(multiLineComment) || line.contains(javaDocComment)) {
-                                ++classe_CLOC;
-                                int count = 1;
-                                while(myReader.hasNextLine() && count!=0){
-                                    ++classe_CLOC;
+                            if (line.contains(MULTIPLE_LINES_COMMENT) || line.contains(JAVADOC_COMMENT)) {
+                                ++classCloc;
+
+                                //tant qu'on trouve pas la ligne avec la fin de commentaire, next line
+                                int openedComments = 1;
+                                while (myReader.hasNextLine() && openedComments != 0) {
+                                    ++classCloc;
                                     line = myReader.nextLine();
-                                    if(line.contains(multiLineComment) || line.contains(javaDocComment)){
-                                        ++count;
+
+                                    //si on trouve un autre commentaire, on le rajoute dans openedComments
+                                    if (line.contains(MULTIPLE_LINES_COMMENT) || line.contains(JAVADOC_COMMENT)) {
+                                        ++openedComments;
                                     }
-                                    if(line.contains(commentEnder)){
-                                        --count;
+
+                                    //si on trouve une fin de commentaire, on l'enleve de openedComments
+                                    if (line.contains(END_COMMENT)) {
+                                        --openedComments;
                                     }
                                 }
-                                ++classe_CLOC;
+                                ++classCloc;
                             }
+
+                            //ligne de code avec commentaire //
                             else {
-                                //avec //
-                                if(line.contains(singleComment)){
-                                    ++classe_CLOC;
+                                if (line.contains(SINGLE_COMMENT)) {
+                                    ++classCloc;
                                 }
-                                //juste du code
+
+                                //sinon juste du code et fait rien
                             }
                         }
                     }
                 }
-                //ligne vide
+
+                //sinon c'est une ligne vide
             }
             myReader.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-
-        return classe_CLOC;
+        return classCloc;
     }
-    
+
     /**
      * Static method to calculate the weighted methods per class (WMC).
      *
      * @param file File to be parsed.
      * @return Class complexity (WMC).
      */
-    private static int classComplexity(File file) throws FileNotFoundException {
-        //constants
-        final String ifCondition = "if";
-        final String elseCondition = "else";
-        final String whileCondition = "while";
+    private static int calculateClassComplexity(File file) throws FileNotFoundException {
 
-        int complexite = 1;
+        //constants
+        final String IF_CONDITION = "if";
+        final String ELSE_CONDITION = "else";
+        final String WHILE_CONDITION = "while";
+
+        int complexity = 1;
 
         //compter nombre de if, else et while
         Scanner myReader = new Scanner(file);
         while (myReader.hasNextLine()) {
+
             //si pas vide
             String line = myReader.nextLine();
-
-            if(line.contains(ifCondition) || line.contains(elseCondition)){
-                ++complexite;
+            if (line.contains(IF_CONDITION) || line.contains(ELSE_CONDITION)) {
+                ++complexity;
             }
 
-            if(line.contains(whileCondition)){
-                ++complexite;
+            if (line.contains(WHILE_CONDITION)) {
+                ++complexity;
             }
         }
-
-        return complexite;
+        return complexity;
     }
 }

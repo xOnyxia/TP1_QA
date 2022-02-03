@@ -1,10 +1,10 @@
 # JavaCodeAnalytics
 Authors :
-* Megane Dandurand, ***insert matricule***
+* Megane Dandurand, 20145024
 * Julien Thibeault, B0610
 
 Repository : 
-* ***insert public link***
+https://github.com/xOnyxia/TP1_QA
 
 ## Introduction
 JavaCodeAnalytics is a command-line application created to provide global analytics for a given java project.
