@@ -2,17 +2,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO : description
- *
+ * Package node object use to store data in a non-binary tree.
  *
  * @author      Megane Dandurand
  * @author      Julien Thibeault
  * */
 public class PackageNode {
 
-    private PackageNode parentNode;
-    private Set<PackageNode> childPackages;
-    private Set<ClassNode> childClasses;
+    private final PackageNode parentNode;
+    private final Set<PackageNode> childPackages;
+    private final Set<ClassNode> childClasses;
     private String path;
 
     // measured metrics

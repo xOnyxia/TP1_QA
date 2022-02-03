@@ -1,14 +1,13 @@
 /**
- * TODO : description
- *
+ * Class node object use to store data in a non-binary tree.
  *
  * @author      Megane Dandurand
  * @author      Julien Thibeault
  * */
 public class ClassNode {
 
-    private PackageNode parentNode;
-    private String path;
+    private final PackageNode parentNode;
+    private final String path;
 
     // mesured metrics
     private int loc;        // number of lines

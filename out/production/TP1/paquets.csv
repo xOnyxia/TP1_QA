@@ -1,0 +1,10 @@
+chemin,paquet,paquet_LOC,paquet_CLOC,paquet_DC,WCP,paquet_BC
+~ root ~,~ root ~,812,11258,13.864532,43010615,3.223514E-7
+~ root ~,org.jfree.chart,6332,90944,14.362602,121328,1.18378295E-4
+org/jfree/chart/,org.jfree.chart.plot,533,13609,25.532833,975,0.02618752
+org/jfree/chart/,org.jfree.chart.text,55,992,18.036364,57,0.31642744
+org/jfree/chart/,org.jfree.chart.swing,390,3366,8.630769,252,0.034249082
+org/jfree/chart/,org.jfree.chart.renderer,2364,30748,13.006768,2938,0.0044270824
+~ root ~,org.jfree.data,4797,37723,7.8638735,3873,0.0020304348
+org/jfree/data/,org.jfree.data.time,108,791,7.3240743,56,0.13078704
+org/jfree/data/,org.jfree.data.json,324,401,1.2376543,80,0.015470679
