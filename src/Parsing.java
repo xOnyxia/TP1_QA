@@ -1,23 +1,7 @@
 import java.io.*;
-import java.lang.reflect.Method;
 import java.util.Scanner;
 
 public class Parsing {
-
-    final String singleComment = "//";
-    final String javaDocComment = "/**";
-    final String multiLineComment = "/*";
-    final String commentEnder = "*/";
-
-    // TODO : ajouter constante pour String if et while.
-    // TODO : méthode pour mesurer WMC (complexité cyclomatique de McCabe)
-
-    // classe_LOC : nombre de lignes de code d’une classe
-    // paquet_LOC : nombre de lignes de code d’un paquet (java package) -- la somme des LOC de ses classes
-    // classe_CLOC : nombre de lignes de code d’une classe qui contiennent des commentaires
-    // paquet_CLOC : nombre de lignes de code d’un paquet qui contiennent des commentaires
-    // classe_DC : densité de commentaires pour une classe : classe_DC = classe_CLOC / classe_LOC
-    // paquet_DC : densité de commentaires pour un paquet : paquet_DC = paquet_CLOC / paquet_LOC
 
     /**
      * Static method to parse a package recursively and gather analytics inside a tree structure.
@@ -25,7 +9,7 @@ public class Parsing {
      * @param parentPackage     Parent package node from data structure to gather analytics.
      * @param currentPath       Current explored path during recursion.
      */
-    public static void parsePackage(PackageNode parentPackage, String currentPath) {
+    public static void parsePackage(PackageNode parentPackage, String currentPath) throws FileNotFoundException {
 
         //Create File object
         File directoryPath = new File(currentPath);
@@ -86,28 +70,29 @@ public class Parsing {
      * @param parentPackage     Parent package node from data structure to gather analytics.
      * @param filePath          File to parse.
      */
-    private static void parseClass(PackageNode parentPackage, String filePath) {
+    private static void parseClass(PackageNode parentPackage, String filePath) throws FileNotFoundException {
         ClassNode currentClass = new ClassNode(parentPackage, filePath);
 
         parentPackage.addChildNode(currentClass);
 
-        // TODO : apply methods and add value to loc, cloc and dc
+        File fileToParse = new File(filePath);
 
         // update ClassNode with measured values
-        currentClass.addLoc();
-        currentClass.addCloc();
-        currentClass.addWmc();
+        currentClass.addLoc(classeLOC(fileToParse));
+        currentClass.addCloc(classeCLOC(fileToParse));
+        currentClass.addWmc(classComplexity(fileToParse));
 
     }
 
+    private static int classeLOC(File file){
+        //constants
+        final String singleComment = "//";
+        final String javaDocComment = "/**";
+        final String multiLineComment = "/*";
+        final String commentEnder = "*/";
 
-    // FIXME : methods under this line should be private
+        int classe_LOC = 0;
 
-    float classe_LOC = 0;
-    float classe_CLOC = 0;
-    float classe_DC = 0;
-
-    public void classeLOC(File file){
         try {
             Scanner myReader = new Scanner(file);
 
@@ -164,9 +149,18 @@ public class Parsing {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        return classe_LOC;
     }
 
-    public void classeCLOC(File file){
+    private static int classeCLOC(File file){
+        //constants
+        final String singleComment = "//";
+        final String javaDocComment = "/**";
+        final String multiLineComment = "/*";
+        final String commentEnder = "*/";
+
+        int classe_CLOC = 0;
+
         try {
             Scanner myReader = new Scanner(file);
 
@@ -229,52 +223,34 @@ public class Parsing {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
+        return classe_CLOC;
     }
 
-    public void classeDC(){
-        if(classe_LOC!=0) {
-            classe_DC = classe_CLOC/classe_LOC;
+    //calculates the class complexity
+    private static int classComplexity(File file) throws FileNotFoundException {
+        //constants
+        final String ifCondition = "if";
+        final String elseCondition = "else";
+        final String whileCondition = "while";
+
+        int complexite = 1;
+
+        //compter nombre de if, else et while
+        Scanner myReader = new Scanner(file);
+        while (myReader.hasNextLine()) {
+            //si pas vide
+            String line = myReader.nextLine();
+
+            if(line.contains(ifCondition) || line.contains(elseCondition)){
+                ++complexite;
+            }
+
+            if(line.contains(whileCondition)){
+                ++complexite;
+            }
         }
-        else {
-            System.err.println("Division par 0");
-        }
-    }
 
-    float paquet_LOC = 0;
-    float paquet_CLOC = 0;
-    float paquet_DC = 0;
-
-    public void paquetLOC(){
-        //TODO: pour chaque classe dans le paquet, faire classe_LOC et sum
-        //FIXME : géré par la récursion dans MAIN : méthode non nécessaire en raison de la structure de donnée
-    }
-
-    public void paquetCLOC(){
-        //TODO: pour chaque classe dans le paquet, faire classe_CLOC et sum
-        //FIXME : géré par la récursion dans MAIN : méthode non nécessaire en raison de la structure de donnée
-    }
-
-    public void paquetDC(){
-        // FIXME : pas besoin, géré par la structure de donnée
-        if(paquet_LOC!=0) {
-            paquet_DC = paquet_CLOC/paquet_LOC;
-        }
-        else {
-            System.err.println("Division par 0");
-        }
-    }
-
-    public float classMethods(File file) throws ClassNotFoundException {
-        String className = file.getName();
-        className = className.substring(0, className.lastIndexOf(".java"));
-        Class fileClass = Class.forName(className);
-        Method[] methods = fileClass.getMethods();
-        //returns the amount of methods in the file class so that we can calculate WMC
-        return methods.length;
-    }
-
-    public void packageMethods(){
-        //TODO: calculer WMC en loopant sur chaque classe du paquet et les additionner. return cette valeur
-        // FIXME : pas besoin,géré par la structure de donnée
+        return complexite;
     }
 }
