@@ -141,9 +141,11 @@ public class AnalyticsWriter {
      */
     private void writeClassAnalytics(ClassNode currentNode) throws IOException {
 
-        this.classesBufferedWriter.write(Utils.getRelativePath(currentNode.getParentNode().getPath(),
-                                         this.src_path) + ",");
-        this.classesBufferedWriter.write(Utils.getClassNameFromPath(currentNode.getPath()) + ",");
+        String fileName = Utils.getClassNameFromPath(currentNode.getPath());
+
+        this.classesBufferedWriter.write(Utils.getRelativePath(currentNode.getPath().replace(
+                fileName, ""), this.src_path) + ",");
+        this.classesBufferedWriter.write(fileName + ",");
         this.classesBufferedWriter.write(String.valueOf(currentNode.getLoc()) + ",");
         this.classesBufferedWriter.write(String.valueOf(currentNode.getCloc()) + ",");
         this.classesBufferedWriter.write(String.valueOf(currentNode.getDc()) + ",");

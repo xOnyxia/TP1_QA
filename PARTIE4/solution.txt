@@ -1,0 +1,17 @@
+Megane Dandurand, 20145024
+Julien Thibeault, B0610
+
+Partie 4
+
+À partir de vos observations, identifiez les 3 classes
+et les 3 paquets les moins bien commentées et proposez des améliorations.
+
+Les 3 classes les moins bien commentées en fonction de l'indicateur classe_BC sont :
+* DatasetUtils.java (paquet org.jfree.data)
+* SerialUtils.java (paquet org.jfree.chart)
+* TextUtils.java (paquet org.jfree.chart)
+
+Les 3 paquets les moins bien commentées en fonction de l'indicateur paquet_BC sont :
+* org.jfree.data
+* org.jfree.chart.renderer
+* org.jfree.data.json

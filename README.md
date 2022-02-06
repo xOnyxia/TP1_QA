@@ -1,4 +1,4 @@
-# JavaCodeAnalytics
+# TP1_QA
 Authors :
 * Megane Dandurand, 20145024
 * Julien Thibeault, B0610
@@ -11,7 +11,7 @@ JavaCodeAnalytics is a command-line application created to provide global analyt
 This project is part of IFT3913 course at Université de Montréal.
 
 ## Installation
-JavaCodeAnalytics is provided as an executable jar, there is no further compilation to do.
+TP1_QA is provided as an executable jar, there is no further compilation to do.
 
 Prior to launch the application, you must install Java Runtime Environment (JRE).
 If you already have the JDK 15.0.1 already installed, you don't need to install JRE.
@@ -23,7 +23,7 @@ The application might work with previous versions, but it has not been tested ye
 To run the command-line application you must provide the source directory of the project.
 In terminal, use this command with actual source path and output path :
 ```
-java -jar JavaCodeAnalytics.jar src_path output_path
+java -jar TP1_QA.jar src_path output_path
 ```
 `src_path` and `output_path` must end with `/`.
 
