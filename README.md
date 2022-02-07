@@ -35,12 +35,29 @@ The command-line application will output two CSV files.
 The first one about classes analytics is named `Classes_Analytics.csv`
 The second one about packages analytics is named `Packages_Analytics.csv`
 #### Classes Analytics CSV example 
-```
-chemin, class, classe_LOC, classe_CLOC, classe_DC, WMC, classe_BC
-TODO data exemple here
-```
+
+| chemin                             | class                                        | classe_LOC | classe_CLOC | classe_DC  | WMC | classes_BC   |
+|------------------------------------|----------------------------------------------|------------|-------------|------------|-----|--------------|
+| ~ root ~                           | module-info.java                             | 40         | 3           | 0.075      | 1   | 0.075        |
+| org/jfree/data/                    | KeyedValues2D.java                           | 12         | 91          | 7.5833335  | 10  | 0.7583333    |
+| org/jfree/chart/                   | ChartElement.java                            | 4          | 44          | 11.0       | 4   | 2.75         |
+| org/jfree/data/                    | KeyToGroupMap.java                           | 9          | 295         | 32.77778   | 34  | 0.9640523    |
+| org/jfree/data/                    | DomainOrder.java                             | 2          | 48          | 24.0       | 5   | 4.8          |
+| org/jfree/chart/                   | JFreeChart.java                              | 60         | 1577        | 26.283333  | 130 | 0.20217948   |
+| org/jfree/data/                    | KeyedValues.java                             | 8          | 81          | 10.125     | 10  | 1.0125       |
+| org/jfree/chart/                   | ChartTransferable.java                       | 10         | 241         | 24.1       | 20  | 1.205        |
+| org/jfree/chart/                   | StandardChartTheme.java                      | 64         | 1727        | 26.984375  | 106 | 0.2545696    |
+| ...                                | ...                                          | ...        | ...         | ...        | ... | ...          |
+
 #### Packages Analytics CSV example
-```
-chemin, paquet, paquet_LOC, paquet_CLOC, paquet_DC, WCP, paquet_BC
-TODO data exemple here
-```
+| chemin           | paquet                   | paquet_LOC | paquet_CLOC | paquet_DC | WCP      | paquet_BC     |
+|------------------|--------------------------|------------|-------------|-----------|----------|---------------|
+| ~ root ~         | ~ root ~                 | 812        | 11258       | 13.864532 | 43010615 | 3.223514E-7   |
+| ~ root ~         | org.jfree.data           | 4797       | 37723       | 7.8638735 | 3873     | 0.0020304348  |
+| org/jfree/data/  | org.jfree.data.time      | 108        | 791         | 7.3240743 | 56       | 0.13078704    |
+| org/jfree/data/  | org.jfree.data.json      | 324        | 401         | 1.2376543 | 80       | 0.015470679   |
+| ~ root ~         | org.jfree.chart          | 6332       | 90944       | 14.362602 | 121328   | 1.18378295E-4 |
+| org/jfree/chart/ | org.jfree.chart.text     | 55         | 992         | 18.036364 | 57       | 0.31642744    |
+| org/jfree/chart/ | org.jfree.chart.renderer | 2364       | 30748       | 13.006768 | 2938     | 0.0044270824  |
+| org/jfree/chart/ | org.jfree.chart.swing    | 390        | 3366        | 8.630769  | 252      | 0.034249082   |
+| org/jfree/chart/ | org.jfree.chart.plot     | 533        | 13609       | 25.532833 | 975      | 0.02618752    |
