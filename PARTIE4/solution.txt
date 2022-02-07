@@ -12,16 +12,22 @@ Les 3 classes les moins bien commentées en fonction de l'indicateur classe_BC s
 * MovingAverage.java (paquet org.jfree.chart.time)
 
 Bien que la densité de commentaire (DC) de ces 3 classes soient parmi les 4 plus faibles
-et qu'elles présentent les indicateurs BC les plus faibles, ces classes sont bien commentées.
+et qu'elles présentent les indicateurs BC les plus faibles, ces classes sont bien commentées en général.
 Les javadocs sont complets. On pourrait uniquement suggérer d'ajouter des commentaires à l'intérieur
-des méthodes pour faciliter l'identification de certaines branches du code (i.e. "if").
+des méthodes pour faciliter l'identification de certaines branches du code (i.e. "if"). Par exemple,
+dans la méthode "iterateZBound" de DatasetUtils.java, la complexité de la méthode est assez élevée,
+elle contient de nombreuses boucles et énoncés conditionnels. La javadoc est bien faite, oui, mais
+elle ne contient qu'un seul single-line comment. Afin d'améliorer la visibilité, ainsi que la
+compréhension de programmeurs arrivant sur le projet, ou qui n'ont pas travaillé sur le code
+depuis longtemps, il serait avantageux d'ajouter quelques commentaires à l'intérieur de méthodes
+avec complexité plus élevée. Ça aiderait nettement en termes de maintenabilité et pour le débogage.
 
-Les 3 paquets les moins bien commentées en fonction de l'indicateur paquet_BC sont :
+Les 3 paquets les moins bien commentés en fonction de l'indicateur paquet_BC sont :
 * org.jfree.data
 * org.jfree.chart.renderer
 * org.jfree.data.json
 
-Les classes présentent dans ces trois paquets sont très bien commentées. En effet, la densité
-de commentaire du code du projet jfreechart est très élevée. Il y a des commentaires pour les
+Les classes présentes dans ces trois paquets sont très bien commentées. En effet, la densité
+de commentaires du code du projet jfreechart est très élevée. Il y a des commentaires pour les
 licenses d'utilisation, les javadocs ainsi que des commentaires au sein même des méthodes.
 Un paquet moins commenté que les autres ne permet pas ici d'identifier de problème majeur.
