@@ -27,6 +27,8 @@ java -jar TP1_QA.jar src_path output_path
 ```
 `src_path` and `output_path` must end with `/`.
 
+Here's an example of what I wrote in cmd: java -jar C:/Users/Megane/Documents/TP1QA_MeganeDandurand_JulienThibeault/TP1_QA_jar/TP1_QA.jar C:/Users/Megane/Documents/tpQA_in/jfreechart-master/ C:/Users/Megane/Documents/tpQA_out/
+
 Make sure to enter the path of the project directory and not the first package you want to parse.
 Otherwise, you won't get the top level package analytics in the CSV.
 
